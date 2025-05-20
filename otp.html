@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css" />
+    <link rel="stylesheet" type="text/css" href="css/signin.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+    <title>SignIn</title>
+    <script type="text/javascript" src="/eel.js"></script>
+  </head>
+  <body style="background-color: #666666">
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <form class="login100-form validate-form" id="otp_verif">
+            <span class="login100-form-title p-b-20"> WELCOME </span>
+            <span class="login100-form-title2 p-b-43"> let's get started </span>
+
+            <div class="wrap-input100 validate-input">
+              <input class="input100" type="number" name="otp" min="0" id="otp" required autocomplete="off" />
+              <span class="focus-input100"></span>
+              <span class="label-input100">OTP Code</span>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button type="submit" class="login100-form-btn">Verified</button>
+            </div>
+          </form>
+
+          <div class="login100-more" style="background-image: url('images/loginbg.jpeg')"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/bootstrap/js/popper.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        if (window.localStorage.getItem("id") != null) {
+          window.location.href = "index.html";
+        }
+
+        $("#otp_verif").submit(function (e) {
+          e.preventDefault();
+          var otp = $("#otp").val();
+          console.log(otp);
+
+          name = window.localStorage.getItem("name");
+          wa = window.localStorage.getItem("wa");
+          pass = window.localStorage.getItem("password");
+
+          if (otp == window.localStorage.getItem("otp")) {
+            eel.otp_process(name, wa, pass);
+          } else {
+            Swal.fire({
+              title: "Failed!",
+              text: "Your OTP is wrong",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          }
+
+          eel.expose(otp_response);
+          function otp_response(response) {
+            if (response == "success") {
+              window.localStorage.clear();
+              Swal.fire({
+                title: "Success!",
+                text: "Your account has been verified",
+                icon: "success",
+                confirmButtonText: "OK",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = "signin.html";
+                }
+              });
+            } else {
+              Swal.fire({
+                title: "Failed!",
+                text: "Your account has not been verified",
+                icon: "error",
+                confirmButtonText: "OK",
+              });
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
